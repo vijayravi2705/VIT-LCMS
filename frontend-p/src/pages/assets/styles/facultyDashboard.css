@@ -1,0 +1,283 @@
+  /* ============================================================
+    FACULTY DASHBOARD – LIGHT FLAT DESIGN (FINAL LOCKED COLORS)
+    ============================================================ */
+
+  /* ---------- ROOT COLORS ---------- */
+  :root {
+    --ink: #0f172a;
+    --muted: #6b7280;
+    --brand: #2563eb;
+    --brand-2: #00c6ff;
+    --green: #10b981;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --card: rgba(255, 255, 255, .95);
+    --shadow: 0 10px 30px rgba(2, 8, 23, .08);
+    --radius: 18px;
+    --container: 1280px;
+    --transition: 0.25s ease-in-out;
+    --bg-gradient: linear-gradient(135deg, #eef2ff, #f8fafc);
+  }
+
+  /* ---------- GLOBAL BEHAVIOR ---------- */
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: var(--bg-gradient);
+    color: var(--ink);
+    font-family: "Inter", "Segoe UI", sans-serif;
+    scroll-behavior: smooth;
+  }
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ---------- APP LAYOUT ---------- */
+  .app-layout {
+    display: flex;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  /* ---------- MAIN SCROLLABLE AREA ---------- */
+  .main.scrollable-main {
+    flex: 1;
+    height: 100dvh;
+    overflow-y: auto;
+    overflow-x: clip;
+    margin-left: 80px;
+    background: var(--bg-gradient);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(37, 99, 235, .45) transparent;
+    transition: margin-left var(--transition);
+  }
+  .main.scrollable-main::-webkit-scrollbar { width: 10px; }
+  .main.scrollable-main::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: linear-gradient(#2563eb, #00c6ff);
+  }
+
+  /* ---------- WRAPPER ---------- */
+  .fd-wrapper {
+    max-width: var(--container);
+    margin-inline: auto;
+    padding: 20px clamp(14px, 2.5vw, 30px);
+  }
+
+  /* ---------- HEADER ---------- */
+  .fd-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .fd-title {
+    font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+    font-weight: 900;
+    margin: 0;
+    background: linear-gradient(90deg, var(--brand), var(--brand-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .fd-sub { color: var(--muted); font-weight: 500; margin: 2px 0 0; }
+  .fd-actions {
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+
+  /* ---------- BUTTONS ---------- */
+  .fd-primary {
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(37,99,235,.25);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .fd-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(37,99,235,.35);
+  }
+  .fd-ghost {
+    border: 1px solid rgba(37,99,235,.25);
+    background: #fff;
+    color: var(--ink);
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+  .fd-ghost:hover { background: rgba(37,99,235,.06); }
+
+  /* ---------- KPI GRID ---------- */
+  .fd-kpis {
+    display: grid;
+    gap: 12px;
+    margin: 10px 0 18px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  .kpi-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(37,99,235,.08);
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 26px rgba(37,99,235,.15);
+  }
+  .kpi-label {
+    font-size: .9rem;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .kpi-value {
+    font-size: 1.9rem;
+    font-weight: 900;
+    margin: 6px 0 3px;
+  }
+  .kpi-meta {
+    font-size: .8rem;
+    color: var(--muted);
+  }
+
+  /* ---------- CHARTS SECTION ---------- */
+  .fd-charts {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+  @media (max-width: 980px) { .fd-charts { grid-template-columns: 1fr; } }
+
+  .fd-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(2,8,23,.06);
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .fd-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(37,99,235,.1);
+  }
+  .fd-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(2,8,23,.06);
+  }
+  .fd-card-head h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 900;
+  }
+  .fd-muted {
+    color: var(--muted);
+    font-size: .86rem;
+  }
+  .fd-chart-body {
+    padding: 28px 20px 22px;
+  }
+
+  /* ---------- TABLE ---------- */
+  .fd-card.fd-table {
+    overflow-x: auto;
+  }
+  .fd-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .95rem;
+    min-width: 720px;
+  }
+  .fd-table thead th {
+    position: sticky;
+    top: 0;
+    background: #f8fafc;
+    color: #111827;
+    text-align: left;
+    padding: 12px 14px;
+    font-weight: 800;
+    border-bottom: 1px solid #e5e7eb;
+    z-index: 1;
+  }
+  .fd-table tbody td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .fd-table tbody tr:hover {
+    background: #f8fbff;
+  }
+  .row-link { cursor: pointer; transition: background var(--transition); }
+  .row-link:hover { background: rgba(37,99,235,.05); }
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  }
+  .muted { color: var(--muted); }
+
+  /* ---------- STATUS CHIPS & PILLS ---------- */
+  .chip {
+    background: #eef2ff;
+    border: 1px solid #e0e7ff;
+    color: #1e3a8a;
+    padding: 4px 10px;
+    font-weight: 800;
+    font-size: .78rem;
+    border-radius: 999px;
+  }
+  .pill {
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: .78rem;
+    display: inline-block;
+    min-width: 92px;
+    text-align: center;
+  }
+  .pill.submitted { background: #e5e7eb; color: #374151; }
+  .pill.in-review { background: #dbeafe; color: #1e40af; }
+  .pill.in-progress { background: #fef3c7; color: #92400e; }
+  .pill.resolved { background: #dcfce7; color: #166534; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 768px) {
+    .main.scrollable-main { margin-left: 0; }
+    .fd-head { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 480px) {
+    .fd-title { font-size: 1.25rem; }
+    .fd-primary, .fd-ghost { padding: 8px 14px; font-size: .88rem; }
+    .fd-wrapper { padding: 14px; }
+  }
+
+  /* ---------- MICRO INTERACTIONS ---------- */
+  .fd-card, .kpi-card {
+    transform: translateY(0);
+  }
+  .fd-card:hover, .kpi-card:hover {
+    transform: translateY(-4px);
+    transition: transform .25s cubic-bezier(.2,.8,.3,1), box-shadow .25s;
+  }
+  .fd-primary:active { transform: scale(.98); }
+  .fd-ghost:active { transform: scale(.98); }
+
+  /* ---------- UTILITY ---------- */
+  button:focus, .row-link:focus, .clickable:focus {
+    outline: 3px solid rgba(37,99,235,.4);
+    outline-offset: 2px;
+  }
+  a { color: var(--brand); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ---------- END ---------- */

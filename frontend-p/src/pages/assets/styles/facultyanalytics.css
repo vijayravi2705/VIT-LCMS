@@ -1,0 +1,724 @@
+/* ===========================================================
+   Faculty Analytics — Day Colors / Tight Layout
+   Final Pass (500-ish lines)
+   =========================================================== */
+
+/* ---------- Root Tokens (Day Colors only) ---------- */
+:root {
+  /* Surfaces & Ink */
+  --bg: #f7f9fc;                 /* slightly brighter day background */
+  --bg-2: #f0f5ff;               /* subtle header wash */
+  --surface: #ffffff;
+  --surface-alt: #fbfdff;
+  --ink: #0f172a;
+  --ink-2: #1f2937;              /* headings */
+  --muted: #6b7280;
+  --muted-2: #4b5563;
+  --subtle-ink: #334155;
+
+  /* Lines & Rings */
+  --line: rgba(15, 23, 42, 0.08);
+  --line-strong: rgba(15, 23, 42, 0.12);
+  --ring: rgba(37, 99, 235, 0.28);
+  --ring-strong: rgba(37, 99, 235, 0.35);
+
+  /* Brand & Accents (day) */
+  --blue: #2563eb;
+  --blue-2: #1d4ed8;
+  --green: #10b981;
+  --amber: #f59e0b;
+  --indigo: #6366f1;
+  --purple: #a855f7;
+  --sky: #06b6d4;
+  --gray: #64748b;
+  --red: #ef4444;
+
+  /* Soft tints for backgrounds / “day” feel */
+  --tint-blue: #eff6ff;
+  --tint-green: #ecfdf5;
+  --tint-amber: #fffbeb;
+  --tint-red: #fef2f2;
+  --tint-indigo: #eef2ff;
+  --tint-gray: #f8fafc;
+
+  /* Gradients & Elevation (day) */
+  --grad-1: linear-gradient(150deg, #f7fbff 0%, #f5f7fb 40%, #ffffff 100%);
+  --grad-card: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78));
+  --shadow-xs: 0 1px 3px rgba(2,6,23,.06), 0 1px 2px rgba(2,6,23,.04);
+  --shadow-sm: 0 4px 14px rgba(2, 6, 23, 0.08);
+  --shadow-md: 0 10px 24px rgba(2, 6, 23, 0.12);
+  --shadow-lg: 0 16px 40px rgba(2, 6, 23, 0.14);
+  --blur: saturate(140%) blur(6px);
+
+  /* Radii (tighter) */
+  --r-xs: 8px;
+  --r-sm: 12px;
+  --r-md: 14px;
+  --r-lg: 18px;
+  --r-xl: 22px;
+
+  /* Timing & Easing */
+  --ease: cubic-bezier(.2,.8,.2,1);
+
+  /* Density scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 14px;
+  --space-5: 16px;
+  --space-6: 20px;
+  --space-7: 24px;
+  --space-8: 28px;
+}
+
+/* ---------- Base / Resets ---------- */
+* { box-sizing: border-box }
+html, body, #root { height: 100% }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+  color: var(--ink);
+  background: var(--grad-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===========================================================
+   PAGE & HEADER
+   =========================================================== */
+
+/* Tighter max width & gallery rhythm */
+.fad-page {
+  max-width: 1180px;                     /* tighter than 1220 */
+  margin: 0 auto;
+  padding: var(--space-7) var(--space-6) 64px;
+  display: grid;
+  gap: var(--space-5);
+}
+
+/* Sticky header with 2-col grid: left (title/sub), right (controls) */
+.fad-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-6) var(--space-6);
+  background: var(--grad-card);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+/* Header text hierarchy */
+.fad-title {
+  margin: 0 0 2px;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--ink-2);
+}
+.fad-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+/* Right-rail actions: no wrap, perfect alignment */
+.fad-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: end;
+  flex-wrap: nowrap;
+}
+.fad-actions > * { flex: 0 0 auto }
+
+/* Segmented control (3M/6M/12M/FY25) — day colors */
+.fad-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(2,6,23,0.02);
+}
+.fad-tab {
+  height: 34px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--ink);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  transition: background .15s var(--ease), color .15s var(--ease), box-shadow .15s var(--ease), transform .15s var(--ease);
+}
+.fad-tab:hover { background: var(--tint-gray) }
+.fad-tab:active { transform: translateY(0.5px) }
+.fad-tab[data-active="true"]{
+  background: var(--tint-indigo);
+  color: var(--blue);
+  box-shadow: inset 0 0 0 1px rgba(37,99,235,.18);
+}
+
+/* Export & Select: same height as tabs */
+.fad-export,
+.fad-select {
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(2,6,23,0.02);
+  transition: transform .15s var(--ease), box-shadow .15s var(--ease), border-color .15s var(--ease);
+}
+.fad-export {
+  padding: 0 14px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--blue), var(--blue-2));
+  border: 1px solid rgba(37,99,235,0.3);
+  font-weight: 700;
+  letter-spacing: .2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.fad-export:hover { transform: translateY(-1px); box-shadow: var(--shadow-md) }
+.fad-export:active { transform: translateY(0) }
+.fad-export:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring) }
+.fad-select {
+  padding: 0 12px;
+  min-width: 170px;
+  color: var(--ink);
+}
+.fad-select:focus { outline: none; border-color: var(--ring); box-shadow: 0 0 0 4px var(--ring) }
+
+/* Export dropdown menu (attach to actions) */
+.fad-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  min-width: 240px;
+  padding: 6px;
+  z-index: 60;
+}
+.fad-menu-item {
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background .15s var(--ease), transform .1s var(--ease);
+}
+.fad-menu-item:hover { background: #f8fafc }
+.fad-menu-item:active { transform: translateY(0.5px) }
+.fad-menu hr {
+  border: none; height: 1px;
+  background: linear-gradient(90deg, rgba(15,23,42,.08), rgba(15,23,42,0));
+  margin: 6px 4px;
+}
+
+/* Subtle halo on Export (day glow) */
+.fad-export {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.fad-export::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120px 120px at var(--x,50%) var(--y,50%), rgba(255,255,255,.28), transparent 40%);
+  opacity: .75;
+  transition: opacity .2s var(--ease);
+  pointer-events: none;
+}
+.fad-export:hover::before { opacity: .95 }
+
+/* ===========================================================
+   KPI STRIP (tight & readable)
+   =========================================================== */
+
+.fad-kpis,
+.fad-kpis-wide {
+  display: grid;
+  gap: 10px;                               /* tighter */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.fad-kpis-wide { grid-template-columns: repeat(8, minmax(0,1fr)) }
+
+.fad-kpi {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 6px;
+  box-shadow: var(--shadow-xs);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.fad-kpi::after {
+  content: "";
+  position: absolute;
+  inset: -30% -10% auto auto;
+  width: 140px; height: 140px;               /* lighter accent circle */
+  border-radius: 50%;
+  opacity: .13;
+  filter: blur(10px);
+  z-index: -1;
+}
+.fad-kpi > div:first-child {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+.fad-kpi > div:last-child {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink-2);
+}
+
+/* KPI Accents */
+.fad-kpi-blue::after { background: var(--blue) }
+.fad-kpi-green::after { background: var(--green) }
+.fad-kpi-amber::after { background: var(--amber) }
+.fad-kpi-indigo::after { background: var(--indigo) }
+.fad-kpi-purple::after { background: var(--purple) }
+.fad-kpi-sky::after { background: var(--sky) }
+.fad-kpi-gray::after { background: var(--gray) }
+.fad-kpi-red::after { background: var(--red) }
+
+/* ===========================================================
+   GRID LAYOUTS (denser gaps)
+   =========================================================== */
+
+.fad-grid-1,
+.fad-grid-2,
+.fad-grid-3 {
+  display: grid;
+  gap: var(--space-5);
+}
+.fad-grid-1 { grid-template-columns: 1fr }
+.fad-grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)) }
+.fad-grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)) }
+
+/* ===========================================================
+   CARD CHROME (tight container styling)
+   =========================================================== */
+
+.fad-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 12px 12px 10px;                 /* tighter */
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow .12s var(--ease), transform .12s var(--ease), border-color .12s var(--ease);
+  overflow: hidden;
+}
+.fad-card:hover { box-shadow: var(--shadow-sm); transform: translateY(-1px) }
+.fad-card h3 {
+  margin: 2px 4px 8px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: var(--ink-2);
+  display: flex; align-items: center; gap: 8px;
+}
+.fad-card h3::after {
+  content: ""; height: 1px; flex: 1 1 auto;
+  background: linear-gradient(90deg, rgba(2,6,23,.07), rgba(2,6,23,0));
+}
+
+/* Card focus ring */
+.fad-card:focus-within {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+/* ===========================================================
+   HEATMAP (day)
+   =========================================================== */
+
+.fad-heatmap {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  border: 1px solid var(--line);
+}
+.fad-heatmap .row {
+  display: grid;
+  grid-template-columns: 54px repeat(9, 1fr);   /* narrower label col */
+  align-items: center;
+  gap: 4px;
+}
+.fad-heatmap .row.hours { grid-template-columns: 54px repeat(9, 1fr) }
+.fad-heatmap .row-label {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: right;
+  padding-right: 8px;
+}
+.fad-heatmap .hour-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+.fad-heatmap .cell {
+  height: 22px;                              /* tighter */
+  border-radius: 7px;
+  border: 1px solid rgba(2, 6, 23, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+  transition: transform .12s var(--ease), box-shadow .12s var(--ease);
+  cursor: default;
+}
+.fad-heatmap .cell:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 16px rgba(2,6,23,0.08);
+}
+
+/* ===========================================================
+   RECHARTS POLISH (day/compact)
+   =========================================================== */
+
+.recharts-default-tooltip {
+  border-radius: 10px !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: var(--shadow-sm) !important;
+  background: #ffffff !important;
+  padding: 7px 9px !important;
+}
+.recharts-tooltip-label { color: var(--muted-2) !important; font-size: 12px !important }
+.recharts-legend-wrapper { font-size: 12px; color: var(--muted) }
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line { stroke: rgba(2, 6, 23, 0.06) }
+.recharts-surface { overflow: visible }
+.recharts-text { fill: var(--subtle-ink) }
+.recharts-tooltip-item-list .recharts-tooltip-item { color: var(--ink) }
+.recharts-cartesian-axis-tick-value { fill: #475569; font-size: 11.5px }
+.recharts-brush .recharts-brush-traveller { rx: 6px; ry: 6px }
+.recharts-rectangle { rx: 10px; ry: 10px } /* Treemap cells */
+.recharts-label-list text { font-size: 12px; fill: #0f172a } /* Funnel label */
+.recharts-legend-item { margin-bottom: 4px }
+
+/* Interactive halo / micro movement */
+svg [cursor="pointer"],
+.recharts-layer.recharts-bar-rectangle path,
+.recharts-layer.recharts-area-curve,
+.recharts-layer.recharts-line {
+  transition: filter .12s var(--ease), opacity .12s var(--ease), transform .12s var(--ease);
+}
+svg [cursor="pointer"]:hover,
+.recharts-layer.recharts-bar-rectangle path:hover,
+.recharts-layer.recharts-area-curve:hover,
+.recharts-layer.recharts-line:hover {
+  filter: drop-shadow(0 6px 14px rgba(37, 99, 235, .14));
+}
+
+/* ===========================================================
+   SCROLL AREAS (tight)
+   =========================================================== */
+
+.fad-card .scroll {
+  max-height: 300px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(2,6,23,0.22) transparent;
+}
+.fad-card .scroll::-webkit-scrollbar { height: 7px; width: 7px }
+.fad-card .scroll::-webkit-scrollbar-thumb {
+  background: rgba(2,6,23,0.18);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.fad-card .scroll::-webkit-scrollbar-track { background: transparent }
+
+/* ===========================================================
+   TABLES (if you show lists)
+   =========================================================== */
+
+.fad-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+.fad-tr {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: var(--shadow-xs);
+}
+.fad-tr > .fad-td,
+.fad-th {
+  padding: 10px 12px;
+  font-size: 13px;
+}
+.fad-th {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-weight: 700;
+}
+.fad-td:first-child { border-top-left-radius: 10px; border-bottom-left-radius: 10px }
+.fad-td:last-child  { border-top-right-radius: 10px; border-bottom-right-radius: 10px }
+
+/* ===========================================================
+   STATUS / BADGES / CHIPS
+   =========================================================== */
+
+.fad-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 12px;
+  color: var(--ink);
+}
+.fad-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  height: 22px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.fad-badge.success { background: rgba(22,163,74,.12); color: #16a34a }
+.fad-badge.warning { background: rgba(245,158,11,.12); color: var(--amber) }
+.fad-badge.danger  { background: rgba(239,68,68,.12); color: var(--red) }
+.fad-badge.info    { background: rgba(6,182,212,.12); color: var(--sky) }
+
+.fad-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.fad-status.good { background: var(--tint-green); color: #16a34a }
+.fad-status.warn { background: var(--tint-amber); color: var(--amber) }
+.fad-status.bad  { background: var(--tint-red); color: var(--red) }
+
+/* ===========================================================
+   TOASTS / EMPTY STATES / SKELETONS
+   =========================================================== */
+
+.fad-toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow-md);
+  display: grid;
+  gap: 4px;
+  min-width: 240px;
+  z-index: 70;
+}
+.fad-toast .title { font-weight: 700; font-size: 13px; color: var(--ink-2) }
+.fad-toast .desc { font-size: 12px; color: var(--muted) }
+
+.fad-empty {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 28px 16px;
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  background: var(--surface-alt);
+  color: var(--muted);
+}
+
+@keyframes fad-shimmer {
+  0% { background-position: -200% 0 }
+  100% { background-position: 200% 0 }
+}
+.fad-skeleton {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 37%,#f1f5f9 63%);
+  background-size: 400% 100%;
+  animation: fad-shimmer 1.4s infinite linear;
+}
+.fad-skeleton.round { height: 40px; width: 40px; border-radius: 50% }
+
+/* ===========================================================
+   UTILITIES (spacing, sizing, flex/grid helpers)
+   =========================================================== */
+
+.fad-gap-6 { gap: 6px }
+.fad-gap-8 { gap: 8px }
+.fad-gap-10 { gap: 10px }
+.fad-gap-12 { gap: 12px }
+.fad-p-0 { padding: 0 }
+.fad-p-6 { padding: 6px }
+.fad-p-8 { padding: 8px }
+.fad-p-10 { padding: 10px }
+.fad-p-12 { padding: 12px }
+.fad-p-16 { padding: 16px }
+.fad-mt-6 { margin-top: 6px }
+.fad-mt-8 { margin-top: 8px }
+.fad-mb-6 { margin-bottom: 6px }
+.fad-mb-8 { margin-bottom: 8px }
+.fad-w-full { width: 100% }
+.fad-inline { display: inline-flex; align-items: center; gap: 8px }
+.fad-row { display: flex; align-items: center; gap: 8px }
+.fad-col { display: grid; gap: 8px }
+.fad-center { display: grid; place-items: center }
+
+.fad-h-100 { height: 100px }
+.fad-h-120 { height: 120px }
+.fad-h-160 { height: 160px }
+.fad-h-200 { height: 200px }
+.fad-h-240 { height: 240px }
+.fad-h-260 { height: 260px }
+.fad-h-300 { height: 300px }
+.fad-h-320 { height: 320px }
+
+/* Soft background panels (day tints) */
+.fad-bg-blue  { background: var(--tint-blue) }
+.fad-bg-green { background: var(--tint-green) }
+.fad-bg-amber { background: var(--tint-amber) }
+.fad-bg-red   { background: var(--tint-red) }
+.fad-bg-gray  { background: var(--tint-gray) }
+
+/* “Band” decoration (for special sections) */
+.fad-band { position: relative; isolation: isolate }
+.fad-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(45deg, rgba(99,102,241,.06) 0 12px, transparent 12px 24px);
+  z-index: -1;
+  border-radius: 12px;
+}
+
+/* ===========================================================
+   ACCESSIBILITY & INTERACTION
+   =========================================================== */
+
+/* Focus rings */
+.fad-tab:focus-visible,
+.fad-export:focus-visible,
+.fad-select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ring);
+  border-color: var(--ring);
+}
+
+/* Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .fad-export,
+  .fad-card,
+  .fad-heatmap .cell,
+  .recharts-layer,
+  .fad-tab,
+  .fad-menu-item {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* High-contrast support */
+@media (forced-colors: active) {
+  .fad-header, .fad-card, .fad-kpi, .fad-tabs, .fad-export, .fad-select { border: 1px solid CanvasText }
+  .fad-export { background: ButtonFace; color: ButtonText }
+  .fad-tab[data-active="true"] { outline: 2px solid Highlight }
+}
+
+/* ===========================================================
+   RESPONSIVE TUNING (tighter columns)
+   =========================================================== */
+
+@media (max-width: 1240px) {
+  .fad-page { max-width: 1120px }
+}
+
+@media (max-width: 1200px) {
+  .fad-kpis-wide { grid-template-columns: repeat(4, minmax(0,1fr)) }
+  .fad-grid-3 { grid-template-columns: repeat(2, minmax(0,1fr)) }
+}
+
+@media (max-width: 992px) {
+  .fad-page { padding: var(--space-6) var(--space-5) 48px }
+  .fad-header { grid-template-columns: 1fr; gap: var(--space-4) }
+  .fad-actions { margin-top: 6px; flex-wrap: wrap; gap: 8px }
+  .fad-tabs { flex: 1 1 auto; justify-content: space-between }
+  .fad-export { margin-left: auto }
+  .fad-grid-2 { grid-template-columns: 1fr }
+  .fad-grid-3 { grid-template-columns: 1fr }
+  .fad-title { font-size: 24px }
+}
+
+@media (max-width: 640px) {
+  .fad-page { padding: 18px 14px 44px }
+  .fad-title { font-size: 22px }
+  .fad-kpis,
+  .fad-kpis-wide { grid-template-columns: repeat(2, minmax(0,1fr)) }
+  .recharts-legend-wrapper { font-size: 11px }
+  .fad-card { padding: 10px }
+  .fad-heatmap .cell { height: 20px }
+}
+
+/* ===========================================================
+   PRINT CLEANUP
+   =========================================================== */
+
+@media print {
+  body { background: #fff }
+  .fad-header { position: static; box-shadow: none }
+  .fad-card { break-inside: avoid; box-shadow: none; border-color: #e5e7eb }
+  .fad-page { max-width: 100%; padding: 0 0 16px }
+  .fad-actions, .fad-export, .fad-select, .fad-tabs { display: none !important }
+}
+
+/* ===========================================================
+   FINAL MICRO-ANIMATIONS (day-friendly, subtle)
+   =========================================================== */
+
+@keyframes fad-pop {
+  0% { transform: scale(.985); opacity: 0 }
+  100% { transform: scale(1); opacity: 1 }
+}
+.fad-card { animation: fad-pop .16s var(--ease) }
+.fad-kpi  { animation: fad-pop .16s var(--ease) }
+
+/* Hover halos on chart lines/bars add day-friendly glow */
+.recharts-layer.recharts-bar-rectangle path:hover { transform: translateY(-1px) }
+.recharts-layer.recharts-line:hover { filter: drop-shadow(0 4px 10px rgba(37,99,235,.12)) }
+
+/* ===========================================================
+   END — Day Colors, Tight Layout, Aligned Right Rail
+   =========================================================== */
